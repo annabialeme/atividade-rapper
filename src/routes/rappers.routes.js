@@ -1,8 +1,8 @@
-import { Router } from "express"
+import { Router } from "express";
 
-const suspeitosRoutes = Router()
+const rappersRoutes = Router();
 
-let suspeitos = [
+let rappers = [
     {
         id: Number(Math.floor(Math.random() * 999999) +1),
         nome: "Beyoncé",
@@ -32,5 +32,11 @@ let suspeitos = [
         descriçãoFisica : "branca, cabelo castanho escuro, cantora",
         envolvimentoNoCrime: false,
     }
-]
+];
 
+// Rota para listar todos os rappers 
+rappersRoutes.get("/", (req, res) => {
+    return res.status(200).json(rappers);
+});
+
+export default rappersRoutes;

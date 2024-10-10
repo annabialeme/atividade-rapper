@@ -1,11 +1,13 @@
-import { Router } from "express"
-const routes = Router()
+import { Router } from "express";
 
 import rappersRoutes from "./rappers.routes.js";
 
-routes.get("/", (req, res) => {
-    return res.status (200).send({ message: ""})
-}) 
+const routes = Router();
 
-routes.use ("/suspeitos", suspeitosRoutes)
-export default routes
+routes.get("/", (req, res) => {
+    return res.status (200).json({ message: "eu me amo"})
+});
+
+routes.use ("/rappers", rappersRoutes);
+
+export default routes;
