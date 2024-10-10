@@ -39,4 +39,9 @@ rappersRoutes.get("/", (req, res) => {
     return res.status(200).json(rappers);
 });
 
+// Rota para buscar um rapper pelo id
+rappersRoutes.get("/:id", (req, res) => {
+    const { id } = req.params;
+});
+
 export default rappersRoutes;
