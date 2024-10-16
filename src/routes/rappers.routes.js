@@ -47,7 +47,7 @@ rappersRoutes.get("/:id", (req, res) => {
  // Busca um rappers pelo id no array de rappers
  const rapper = rappers.find((rappers) => rappers.id == id);
 
- // Verifica se o rappers foi encontrado
+ // Verifica se os rappers foram encontrados
  if (!rappers) {
    return res
      .status(404)
@@ -60,7 +60,8 @@ rappersRoutes.get("/:id", (req, res) => {
   rappersRoutes.put("/:id", (req, res) => {
     const { id } = req.params;
     const { nome, idade, descriçãoFisica, envolvimentoNoCrime } = req.body;
-  
   });
+  
+
   
 export default rappersRoutes;
