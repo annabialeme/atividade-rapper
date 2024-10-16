@@ -44,4 +44,9 @@ rappersRoutes.get("/:id", (req, res) => {
     const { id } = req.params;
 });
 
+ // Busca um rappers pelo id no array de rappers
+ const rapper = rappers.find((rappers) => rappers.id == id);
+
+ 
+  
 export default rappersRoutes;
