@@ -56,7 +56,11 @@ rappersRoutes.get("/:id", (req, res) => {
 
  return res.status(200).json(rappers);
 
-
-
+  // Rota para atualizar um rapper pelo id
+  rappersRoutes.put("/:id", (req, res) => {
+    const { id } = req.params;
+    const { nome, idade, descriçãoFisica, envolvimentoNoCrime } = req.body;
+  
+  });
   
 export default rappersRoutes;
