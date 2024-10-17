@@ -60,8 +60,10 @@ rappersRoutes.get("/:id", (req, res) => {
   rappersRoutes.put("/:id", (req, res) => {
     const { id } = req.params;
     const { nome, idade, descriçãoFisica, envolvimentoNoCrime } = req.body;
-  });
   
+// Busca um rappers pelo id no array de rappers
+const rappers = rappers.find((rappers) => rappers.id == id);
 
+});
   
 export default rappersRoutes;
