@@ -39,131 +39,88 @@ rappersRoutes.get("/", (req, res) => {
     return res.status(200).json(rappers);
 });
 
-// Rota para buscar um rapper pelo id
+// Rota para buscar um rappers pelo id
 rappersRoutes.get("/:id", (req, res) => {
-    const { id } = req.params;
+  const { id } = req.params;
+
+  // Busca um rapper pelo id no array de rappers
+  const rapper = rappers.find((rapper) => rapper.id == id);
+
+  // Verifica se o rapper foi encontrado
+  if (!rapper) {
+    return res
+      .status(404)
+      .json({ message: `Rapper com id ${id} não encontrado!` });
+  }
+
+  return res.status(200).json(rapper);
 });
 
- // Rota para cadastrar um novo suspeito
- suspeitosRoutes.post("/", (req, res) => {
-    const { nome, idade, descriçãoFisica, envolvimentoNoCrime } = req.body;
-  
- });
+// Rota para atualizar um rapper pelo id
+rappersRoutes.put("/:id", (req, res) => {
+  const { id } = req.params;
+  const { nome, idade, descriçãoFisica, envolvimentoNoCrime } = req.body;
+
+  // Busca um rapper pelo id no array de rappers
+  const rapper = rappers.find((r) => r.id == id);
 
 // Validação dos campos obrigatórios
-if (!nome || !idade|| !envolvimentoNoCrime) {
-    return res.status(400).json({
-      message: "O campo nome, idade, envolvimento no Crime é obrigatório!",
-    });
-  }
-  
-  // Validação de existência de envolvimento no crime
-  if (envolvimento != "sim" && envolvimento != "não") {
-    return res.status(400).send({
-      message: "Digite 'sim' ou 'não'!",
-    });
-  }
-  
-  // Validação para verificar se a idade é um número inteiro
-  if (Number.isInteger(idade) == false) {
-    return res.status(400).send({
-      message: "A idade do rapper deve ser um número inteiro!",
-    }); 
-  };
+if (!nome) {
+  return res.status(400).json({
+    message: "O campo nome é obrigatório!",
+  });
+}
 
-    // Criação de um novo suspeito
-const novoSuspeito = {
-      id: Math.floor(Math.random() * 999999),
-      nome,
-      idade,
-      descriçãoFisica,
-      envolvimentoNoCrime,
-    }
+// Validação de existência no envolvimento no crime
+if (envolvimentoNoCrime != "sim" && envolvimentoNoCrime != "não") {
+  return res.status(400).send({
+    message: "Digite 'sim' ou 'não'!",
+  });
+}
 
- // Adiciona o novo suspeito ao array de rappers
- rappers.push(novoSuspeito);
+// Validação da idade como um número inteiro
+if (Number.isInteger(idade) == false) {
+  return res.status(400).send({
+    message: "A idade do rapper deve ser um número inteiro!",
+  });
+}
 
-return res.status(201).json({
-  message: "Suspeito cadastrado com sucesso!",
-  novoSuspeito,
-});
-
- // Busca rappers pelo id no array de rappers
- const rapper = rappers.find((rappers) => rappers.id == id);
-
- // Verifica se os rappers foram encontrados
- if (!rappers) {
-   return res
-     .status(404)
-     .json({ message: `rappers com id ${id} não encontrado!` });
- }
-
- return res.status(200).json(rappers);
-
-  // Rota para atualizar um rapper pelo id
-  rappersRoutes.put("/:id", (req, res) => {
-    const { id } = req.params;
-    const { nome, idade, descriçãoFisica, envolvimentoNoCrime } = req.body;
-  
-// Busca rappers pelo id no array de rappers
-const rappers = rappers.find((rappers) => rappers.id == id);
-
-});
-
- // Validação dos campos obrigatórios
- if (!nome || !idade || !envolvimentoNoCrime) {
-    return res.status(400).json({
-      message: "Os campos nome, idade e envolvimento no crime são obrigatórios!",
-    });
-  }
-
-  // Validação de existência no envolvimento no crime
-  if (envolvimento != "sim" && envolvimento != "não") {
-    return res.status(400).send({
-      message: "Digite 'sim' ou 'não'!",
-    });
-  }
-
-  rappers.nome = nome;
-  rappers.idade = idade;
-  rappers.descriçãoFisica = descriçãoFisica;
-  rappers.envolvimentoNoCrime = envolvimentoNoCrime || [];
+  rapper.nome = nome;
+  rapper.idade = idade;
+  rapper.descriçãoFisica = descriçãoFisica;
+  rapper.envolvimentoNoCrime = envolvimentoNoCrime || [];
 
   return res.status(200).json({
     message: "Rapper atualizado com sucesso!",
     rapper,
   });
+});
 
-  // Validação para verificar se a idade é um número inteiro
-  if (Number.isInteger(idade) == false) {
-    return res.status(400).send({
-      message: "A idade do rapper deve ser um número inteiro!",
-    }); 
-  };
 
 // Rota para deletar um rapper
 rappersRoutes.delete("/:id", (req, res) => {
-    const { id } = req.params;
+  const { id } = req.params;
 
-});
-  
 // Busca rappers pelo id no array de rappers
 const rappers = rappers.find((rappers) => rappers.id == id);
 
 // Verifica se o rapper foi encontrado
 if (!rapper) {
-  return res
-    .status(404)
-    .json({ message: `Rapper com id ${id} não encontrado!` });
+return res
+  .status(404)
+  .json({ message: `Rapper com id ${id} não encontrado!` });
 }
 
 // Remove o rapper do array de rappers
 rappers = rappers.filter((rappers) => rappers.id != id);
 
 return res.status(200).json({
-  message: "Rapper removido com sucesso!",
-  rapper,
+message: "Rapper removido com sucesso!",
+rapper,
 });
+});
+
+
 
 
 export default rappersRoutes;
