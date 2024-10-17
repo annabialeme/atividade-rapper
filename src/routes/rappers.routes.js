@@ -44,7 +44,7 @@ rappersRoutes.get("/:id", (req, res) => {
     const { id } = req.params;
 });
 
- // Busca um rappers pelo id no array de rappers
+ // Busca rappers pelo id no array de rappers
  const rapper = rappers.find((rappers) => rappers.id == id);
 
  // Verifica se os rappers foram encontrados
@@ -61,9 +61,18 @@ rappersRoutes.get("/:id", (req, res) => {
     const { id } = req.params;
     const { nome, idade, descriçãoFisica, envolvimentoNoCrime } = req.body;
   
-// Busca um rappers pelo id no array de rappers
+// Busca rappers pelo id no array de rappers
 const rappers = rappers.find((rappers) => rappers.id == id);
 
 });
+
+ // Validação dos campos obrigatórios
+ if (!nome || !idade || !envolvimentoNoCrime) {
+    return res.status(400).json({
+      message: "Os campos nome, idade e envolvimento no crime são obrigatórios!",
+    });
+  }
+
+
   
 export default rappersRoutes;
