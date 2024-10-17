@@ -73,6 +73,25 @@ const rappers = rappers.find((rappers) => rappers.id == id);
     });
   }
 
+  // Validação de existência no envolvimento no crime
+  if (envolvimento != "sim" && envolvimento != "não") {
+    return res.status(400).send({
+      message: "Digite 'sim' ou 'não'!",
+    });
+  }
+
+  rappers.nome = nome;
+  rappers.idade = idade;
+  rappers.descriçãoFisica = descriçãoFisica;
+  rappers.envolvimentoNoCrime = envolvimentoNoCrime || [];
+
+  return res.status(200).json({
+    message: "Rapper atualizado com sucesso!",
+    rapper,
+  });
+
+
+
 
   
 export default rappersRoutes;
