@@ -104,6 +104,5 @@ rappersRoutes.delete("/:id", (req, res) => {
 });
   
 // Busca rappers pelo id no array de rappers
-const rappers = suspeitos.find((suspect) => suspect.id == id);
-
+const rappers = rappers.find((rappers) => rappers.id == id);
 export default rappersRoutes;
