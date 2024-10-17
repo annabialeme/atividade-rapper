@@ -90,7 +90,12 @@ const rappers = rappers.find((rappers) => rappers.id == id);
     rapper,
   });
 
-
+  // Validação para verificar se a idade é um número inteiro
+  if (Number.isInteger(idade) == false) {
+    return res.status(400).send({
+      message: "A idade do rapper deve ser um número inteiro!",
+    }); 
+  };
 
 
   
