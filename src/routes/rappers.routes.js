@@ -44,6 +44,50 @@ rappersRoutes.get("/:id", (req, res) => {
     const { id } = req.params;
 });
 
+ // Rota para cadastrar um novo suspeito
+ suspeitosRoutes.post("/", (req, res) => {
+    const { nome, idade, descriçãoFisica, envolvimentoNoCrime } = req.body;
+  
+ });
+
+// Validação dos campos obrigatórios
+if (!nome || !idade|| !envolvimentoNoCrime) {
+    return res.status(400).json({
+      message: "O campo nome, idade, envolvimento no Crime é obrigatório!",
+    });
+  }
+  
+  // Validação de existência de envolvimento no crime
+  if (envolvimento != "sim" && envolvimento != "não") {
+    return res.status(400).send({
+      message: "Digite 'sim' ou 'não'!",
+    });
+  }
+  
+  // Validação para verificar se a idade é um número inteiro
+  if (Number.isInteger(idade) == false) {
+    return res.status(400).send({
+      message: "A idade do rapper deve ser um número inteiro!",
+    }); 
+  };
+
+    // Criação de um novo suspeito
+const novoSuspeito = {
+      id: Math.floor(Math.random() * 999999),
+      nome,
+      idade,
+      descriçãoFisica,
+      envolvimentoNoCrime,
+    }
+
+ // Adiciona o novo suspeito ao array de rappers
+ rappers.push(novoSuspeito);
+
+return res.status(201).json({
+  message: "Suspeito cadastrado com sucesso!",
+  novoSuspeito,
+});
+
  // Busca rappers pelo id no array de rappers
  const rapper = rappers.find((rappers) => rappers.id == id);
 
@@ -105,4 +149,21 @@ rappersRoutes.delete("/:id", (req, res) => {
   
 // Busca rappers pelo id no array de rappers
 const rappers = rappers.find((rappers) => rappers.id == id);
+
+// Verifica se o rapper foi encontrado
+if (!rapper) {
+  return res
+    .status(404)
+    .json({ message: `Rapper com id ${id} não encontrado!` });
+}
+
+// Remove o rapper do array de rappers
+rappers = rappers.filter((rappers) => rappers.id != id);
+
+return res.status(200).json({
+  message: "Rapper removido com sucesso!",
+  rapper,
+});
+
+
 export default rappersRoutes;
