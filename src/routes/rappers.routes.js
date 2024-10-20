@@ -8,7 +8,7 @@ let rappers = [
         nome: "Beyoncé",
         idade: 43,
         descriçãoFisica : "morena, cabelo loiro, cantora",
-        envolvimentoNoCrime: true,
+        envolvimentoNoCrime: "sim",
         
     },
     {
@@ -16,21 +16,21 @@ let rappers = [
         nome: "Jay-Z",
         idade: 54,
         descriçãoFisica : "negro, cabelo preto, casado",
-        envolvimentoNoCrime: true,
+        envolvimentoNoCrime: "sim",
     },
     {
         id: Number(Math.floor(Math.random() * 999999) +1),
         nome: "Justin Bieber",
         idade: 30,
         descriçãoFisica : "branco, cabelo castanho claro, cantor",
-        envolvimentoNoCrime: false,
+        envolvimentoNoCrime: "não",
     }, 
     {
         id: Number(Math.floor(Math.random() * 999999) +1),
         nome: "Selena Gomez",
         idade: 32,
         descriçãoFisica : "branca, cabelo castanho escuro, cantora",
-        envolvimentoNoCrime: false,
+        envolvimentoNoCrime: "não",
     }
 ];
 
@@ -44,39 +44,45 @@ rappersRoutes.post("/", (req, res) => {
   const { nome, idade, descriçãoFisica, envolvimentoNoCrime } = req.body;
 
   // Validação dos campos obrigatórios
-  if (!nome || !idade || !descriçãoFisica || !envolvimentoNoCrime) {
+  if (!nome || !idade  || !envolvimentoNoCrime) {
     return res.status(400).json({
-      message: "Os campos nome, idade, descriçãoFisica e envolvimentoNoCrime são obrigatórios!",
+      message: "Os campos nome, idade e envolvimentoNoCrime são obrigatórios!",
     });
   }
 
   // Validação de existência de rapper
-  if (  envolvimentoNoCrime != "sim" && envolvimentoNoCrime != "não") {
+  if (envolvimentoNoCrime != "sim" && envolvimentoNoCrime != "não") {
     return res.status(400).send({
-      message: "Digite 'sim' ou 'não'!",
+      message: "Digite 'sim' ou 'não'! em envolvimentoNoCrime",
     });
   }
 
-  // Criação de um novo planeta
-  const novoPlaneta = {
+  // Validação da idade como um número inteiro
+if (Number.isInteger(idade) == false) {
+  return res.status(400).send({
+    message: "A idade do rapper deve ser um número inteiro!",
+  });
+}
+
+  // Criação de um novo rapper
+  const novoRapper = {
     id: Math.floor(Math.random() * 999999),
     nome,
     idade,
     descriçãoFisica,
     envolvimentoNoCrime,
-
   };
 
   // Adiciona o novo rapper ao array de rappers
   rappers.push(novoRapper);
 
   return res.status(201).json({
-    message: "rapper cadastrado com sucesso!",
+    message: "Rapper cadastrado com sucesso!",
     novoRapper,
   });
 });
 
-// Rota para buscar um rappers pelo id
+// Rota para buscar um rapper pelo id
 rappersRoutes.get("/:id", (req, res) => {
   const { id } = req.params;
 
@@ -98,63 +104,30 @@ rappersRoutes.put("/:id", (req, res) => {
   const { id } = req.params;
   const { nome, idade, descriçãoFisica, envolvimentoNoCrime } = req.body;
 
-
   // Busca um rapper pelo id no array de rappers
-  const rappers = rappers.find((r) => r.id == id);
+  const rapper = rappers.find((rapper) => rapper.id == id);
 
   // Validação dos campos obrigatórios
-  if (!nome) {
+  if (!nome || !idade || !envolvimentoNoCrime) {
     return res.status(400).json({
-      message: "O campos nome é obrigatório!",
+      message: "Os campos nome, idade e envolvimentoNoCrime são obrigatórios!",
     });
   }
 
-  // Validação de existência no envolvimento do crime
+  // Validação de existência de rapper
   if (envolvimentoNoCrime != "sim" && envolvimentoNoCrime != "não") {
     return res.status(400).send({
-      message: "Digite 'sim' ou 'não'!",
+      message: "Digite 'sim' ou 'não'! em envolvimentoNoCrime",
     });
   }
 
- // Validação para verificar se a idade é um número inteiro
- if (Number.isInteger(idade) == false) {
-  return res.status(400).send({
-    message: "A idade do rapper deve ser um número inteiro!",
-  }); 
-};
-
-  // Busca um rapper pelo id no array de rappers
-  const rapper = rappers.find((r) => r.id == id);
-
-// Validação dos campos obrigatórios
-if (!nome) {
-  return res.status(400).json({
-    message: "O campo nome é obrigatório!",
-  });
-}
-
-// Validação de existência no envolvimento no crime
-if (envolvimentoNoCrime != "sim" && envolvimentoNoCrime != "não") {
-  return res.status(400).send({
-    message: "Digite 'sim' ou 'não'!",
-  });
-}
-
-// Validação da idade como um número inteiro
-if (Number.isInteger(idade) == false) {
-  return res.status(400).send({
-    message: "A idade do rapper deve ser um número inteiro!",
-  });
-}
-
-
-  rapper.nome = nome;
-  rapper.idade = idade;
-  rapper.descriçãoFisica = descriçãoFisica;
-  rapper.envolvimentoNoCrime = envolvimentoNoCrime || [];
+  rapper.nome = nome
+  rapper.idade = idade
+  rapper.descriçãoFisica = descriçãoFisica
+  rapper.envolvimentoNoCrime = envolvimentoNoCrime
 
   return res.status(200).json({
-    message: "Rapper atualizado com sucesso!",
+    message: "rapper atualizado com sucesso!",
     rapper,
   });
 });
@@ -181,28 +154,6 @@ rappersRoutes.delete("/:id", (req, res) => {
     rapper,
   });
 });
-
-
-// Busca rappers pelo id no array de rappers
-const rapper = rappers.find((rappers) => rappers.id == id);
-
-// Verifica se o rapper foi encontrado
-if (!rapper) {
-return res
-  .status(404)
-  .json({ message: `Rapper com id ${id} não encontrado!` });
-}
-
-// Remove o rapper do array de rappers
-rappers = rappers.filter((rappers) => rappers.id != id);
-
-return res.status(200).json({
-message: "Rapper removido com sucesso!",
-rapper,
-});
-
-
-
 
 
 export default rappersRoutes;
